@@ -15,7 +15,8 @@ var app = new Vue({
       username: '',
       password: ''
     },
-    loginMsg: ''
+    loginMsg: '',
+    itemsid: []
   },
   methods: {
     getAllItems () {
@@ -48,6 +49,7 @@ var app = new Vue({
 
     addToCart (item) {
       this.cart.push(item)
+      this.itemsid.push(item._id)
       this.totalPriceCart += item.price
       console.log('added to cart');
       // if (this.cart.length != 0) {
@@ -81,6 +83,7 @@ var app = new Vue({
     clearCart () {
       console.log('ini method clearCart');
       this.cart = []
+      this.itemsid = []
     },
 
     checkOut () {
@@ -90,34 +93,59 @@ var app = new Vue({
         this.showLogin()
       }
       else {
-        this.cart.forEach(itemCart => {
-          // console.log(itemCart.name);
-          this.items.forEach(item => {
-            if (itemCart._id == item._id) {
-              item.stock--
-
-              axios({
-                method: 'put',
-                url: `http://localhost:3000/items/${item._id}/stock`,
-                data: {
-                  stock: item.stock
-                }
-              })
-              .then(response => {
-                console.log(response.data.msg);
-              })
-              .catch(err => console.log(err))
-
-            }
-          })
+        console.log('checkOut else');
+        let self = this
+        axios({
+          method: 'post',
+          url: 'http://localhost:3000/transactions',
+          data: {
+            items: self.itemsid
+          },
+          headers: {
+            token: self.token
+          }
         })
-        this.clearCart()
+        .then(response => {
+          console.log(response);
+          self.updateStock()
+          this.clearCart()
+        })
+        .catch(err => console.log(err))
+
         $('#cart-modal').modal('hide')
       }
     },
 
+    updateStock () {
+      console.log('ini method updateStock');
+      this.cart.forEach(itemCart => {
+        this.items.forEach(item => {
+          if (itemCart._id == item._id) {
+            console.log(item);
+            item.stock--
+            let self = this
+            axios({
+              method: 'put',
+              url: `http://localhost:3000/items/${item._id}/stock`,
+              data: {
+                stock: item.stock
+              },
+              headers: {
+                token: this.token
+              }
+            })
+            .then(response => {
+              console.log(response.data.msg);
+            })
+            .catch(err => console.log(err))
+          }
+        })
+      })
+    },
+
     logout () {
       this.cart = []
+      this.loginMsg = ''
       this.token = ''
       localStorage.removeItem('ecommercetoken')
     },
