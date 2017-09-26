@@ -64,7 +64,7 @@
               <button type="submit" class="btn btn-default">Submit</button>
             </form> -->
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Cart</a></li>
+              <li><a @click="showCart" href="#">Cart</a></li>
               <li><a href="#">Login</a></li>
             </ul>
           </div>
@@ -91,6 +91,9 @@
                   </div>
                   <div class="panel-body">
                     {{ item.description }}
+                    <br><br><p>Stock: {{ item.stock }}</p>
+                    <p>Price: {{ item.price }}</p>
+                    <a href="#" class="btn btn-danger" @click="addToCart(item)">Buy</a>
                   </div>
                 </div>
               </div>
@@ -98,9 +101,48 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="container">
+        <!-- Cart modal -->
+        <div id="cart-modal" class="modal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Your cart</h4>
+              </div>
+              <div class="modal-body">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Item</th>
+                      <th>Qty</th>
+                      <th>Price</th>
+                      <th>Options</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(item, index) in cart">
+                      <td>{{ index+1 }}</td>
+                      <td>{{ item.name }}</td>
+                      <td>1</td>
+                      <td>{{ item.price }}</td>
+                      <td><a href="#" @click="removeItemCart(index)"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button v-if="cart.length == 0" disabled type="button" class="btn btn-default" @click="clearCart">Clear</button>
+                <button v-else type="button" class="btn btn-default" @click="clearCart">Clear</button>
+                <button v-if="cart.length == 0" disabled type="button" class="btn btn-danger" @click="checkOut">Checkout</button>
+                <button v-else type="button" class="btn btn-danger" @click="checkOut">Checkout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- <section style="height:80px;"></section>
         <div class="row" style="text-align:center;">
         <h2>Bootstrap Dark Footer UI</h2>

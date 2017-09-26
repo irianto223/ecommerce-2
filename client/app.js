@@ -1,7 +1,8 @@
 var app = new Vue({
   el: '#app',
   data: {
-    items: []
+    items: [],
+    cart: []
   },
   methods: {
     getAllItems () {
@@ -16,6 +17,59 @@ var app = new Vue({
       .catch(err => {
         console.log(err);
       })
+    },
+
+    showCart () {
+      $('#cart-modal').modal()
+    },
+
+    addToCart (item) {
+      this.cart.push(item)
+      console.log('added to cart');
+      // if (this.cart.length != 0) {
+      //   this.cart.forEach(itemCart => {
+      //     if (itemCart._id == item._id) {
+      //       console.log('sudah ada');
+      //       itemCart.qty++
+      //       return
+      //     }
+      //     else {
+      //       console.log('belum ada');
+      //       item.qty = 1
+      //       this.cart.push(item)
+      //       return
+      //     }
+      //   })
+      // }
+      // else {
+      //   console.log('cart kosong');
+      //   item.qty = 1
+      //   this.cart.push(item)
+      // }
+    },
+
+    removeItemCart (index) {
+      console.log('ini method removeItemCart');
+      this.cart.splice(index, 1)
+    },
+
+    clearCart () {
+      console.log('ini method clearCart');
+      this.cart = []
+    },
+
+    checkOut () {
+      console.log('ini method checkOut');
+      this.cart.forEach(itemCart => {
+        // console.log(itemCart.name);
+        this.items.forEach(item => {
+          if (itemCart._id == item._id) {
+            item.stock--
+          }
+        })
+      })
+      this.clearCart()
+      $('#cart-modal').modal('hide')
     }
   },
   created () {
