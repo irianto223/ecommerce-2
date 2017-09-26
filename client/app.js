@@ -68,6 +68,19 @@ var app = new Vue({
         this.items.forEach(item => {
           if (itemCart._id == item._id) {
             item.stock--
+
+            axios({
+              method: 'put',
+              url: `http://localhost:3000/items/${item._id}/stock`,
+              data: {
+                stock: item.stock
+              }
+            })
+            .then(response => {
+              console.log(response.data.msg);
+            })
+            .catch(err => console.log(err))
+
           }
         })
       })

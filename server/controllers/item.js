@@ -74,10 +74,27 @@ var updateItem = (req, res) => {
   .catch(err => res.send(err))
 }
 
+var updateStock = (req, res) => {
+  Item.update({
+    _id: req.params.id
+  },
+  {
+    stock: req.body.stock
+  })
+  .then(data => {
+    res.send({
+      msg: 'data updated',
+      data: data
+    })
+  })
+  .catch(err => re.send(err))
+}
+
 module.exports = {
   createItem,
   getAllItems,
   getItem,
   deleteItem,
-  updateItem
+  updateItem,
+  updateStock
 }
