@@ -65,7 +65,8 @@
             </form> -->
             <ul class="nav navbar-nav navbar-right">
               <li><a @click="showCart" href="#">Cart</a></li>
-              <li><a href="#">Login</a></li>
+              <li v-if="token != ''"><a @click="logout" href="#">Logout</a></li>
+              <li v-else><a @click="showLogin" href="#">Login/Register</a></li>
             </ul>
           </div>
         </div>
@@ -144,6 +145,86 @@
                 <button v-else type="button" class="btn btn-default" @click="clearCart">Clear</button>
                 <button v-if="cart.length == 0" disabled type="button" class="btn btn-danger" @click="checkOut">Checkout</button>
                 <button v-else type="button" class="btn btn-danger" @click="checkOut">Checkout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Login modal -->
+        <div id="login-modal" class="modal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Login</h4>
+              </div>
+              <div class="modal-body">
+
+                <div v-if="loginMsg == 'password incorrect' || loginMsg == 'username not found'" class="alert alert-dismissible alert-danger">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  <strong>{{ loginMsg }}</strong>
+                </div>
+
+                <form @submit.prevent="login" id="login-form">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Username" id="username-login" required v-model="loginState.username">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" id="password-login" required v-model="loginState.password">
+                  </div>
+                  <div class="form-group">
+                    <!-- <button type="reset" class="btn btn-default">Cancel</button> -->
+                    <button type="submit" class="btn btn-primary">Login</button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button v-if="cart.length == 0" disabled type="button" class="btn btn-default" @click="clearCart">Clear</button>
+                <button v-else type="button" class="btn btn-default" @click="clearCart">Clear</button>
+                <button v-if="cart.length == 0" disabled type="button" class="btn btn-danger" @click="checkOut">Checkout</button>
+                <button v-else type="button" class="btn btn-danger" @click="checkOut">Checkout</button> -->
+                <p>Don't have account? <a @click="showRegister" href="#!">Register here</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Register modal -->
+        <div id="register-modal" class="modal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Register</h4>
+              </div>
+              <div class="modal-body">
+                <form @submit.prevent="register" id="register-form">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Name" required v-model="registerState.name">
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Email" required v-model="registerState.email">
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Username" required v-model="registerState.username">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" required v-model="registerState.password">
+                  </div>
+                  <div class="form-group">
+                    <!-- <button type="reset" class="btn btn-default">Cancel</button> -->
+                    <button type="submit" class="btn btn-primary">Register</button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button v-if="cart.length == 0" disabled type="button" class="btn btn-default" @click="clearCart">Clear</button>
+                <button v-else type="button" class="btn btn-default" @click="clearCart">Clear</button>
+                <button v-if="cart.length == 0" disabled type="button" class="btn btn-danger" @click="checkOut">Checkout</button>
+                <button v-else type="button" class="btn btn-danger" @click="checkOut">Checkout</button> -->
+                <p>Already have account? <a @click="showLogin" href="#!">Login here</a></p>
               </div>
             </div>
           </div>
