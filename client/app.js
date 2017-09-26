@@ -2,7 +2,8 @@ var app = new Vue({
   el: '#app',
   data: {
     items: [],
-    cart: []
+    cart: [],
+    totalPriceCart: 0
   },
   methods: {
     getAllItems () {
@@ -25,6 +26,7 @@ var app = new Vue({
 
     addToCart (item) {
       this.cart.push(item)
+      this.totalPriceCart += item.price
       console.log('added to cart');
       // if (this.cart.length != 0) {
       //   this.cart.forEach(itemCart => {
@@ -48,9 +50,10 @@ var app = new Vue({
       // }
     },
 
-    removeItemCart (index) {
+    removeItemCart (index, item) {
       console.log('ini method removeItemCart');
       this.cart.splice(index, 1)
+      this.totalPriceCart -= item.price
     },
 
     clearCart () {

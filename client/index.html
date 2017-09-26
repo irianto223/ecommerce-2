@@ -127,7 +127,13 @@
                       <td>{{ item.name }}</td>
                       <td>1</td>
                       <td>{{ item.price }}</td>
-                      <td><a href="#" @click="removeItemCart(index)"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a></td>
+                      <td><a href="#" @click="removeItemCart(index, item)"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a></td>
+                    </tr>
+                    <tr v-if="cart.length != 0">
+                      <td></td>
+                      <td colspan="2">TOTAL</td>
+                      <td>{{ totalPriceCart }}</td>
+                      <td></td>
                     </tr>
                   </tbody>
                 </table>
