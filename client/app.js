@@ -1,4 +1,4 @@
-var API_HOST = 'http://35.197.153.212/'
+var API_HOST = 'http://35.197.153.212'
 var app = new Vue({
   el: '#app',
   data: {
