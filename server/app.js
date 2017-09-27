@@ -15,7 +15,7 @@ var transaction = require('./routes/transaction');
 var app = express();
 
 // mongoose connect
-mongoose.connect('mongodb://localhost/anto-ecommerce-2');
+mongoose.connect(process.env.MONGODB_ATLAS);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
