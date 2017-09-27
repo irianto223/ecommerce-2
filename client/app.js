@@ -1,3 +1,4 @@
+var API_HOST = 'http://35.197.153.212/'
 var app = new Vue({
   el: '#app',
   data: {
@@ -22,7 +23,7 @@ var app = new Vue({
     getAllItems () {
       axios({
         method: 'get',
-        url: 'http://localhost:3000/items'
+        url: `${API_HOST}/items`
       })
       .then(response => {
         console.log(response);
@@ -97,7 +98,7 @@ var app = new Vue({
         let self = this
         axios({
           method: 'post',
-          url: 'http://localhost:3000/transactions',
+          url: `${API_HOST}/transactions`,
           data: {
             items: self.itemsid
           },
@@ -126,7 +127,7 @@ var app = new Vue({
             let self = this
             axios({
               method: 'put',
-              url: `http://localhost:3000/items/${item._id}/stock`,
+              url: `${API_HOST}/items/${item._id}/stock`,
               data: {
                 stock: item.stock
               },
@@ -156,7 +157,7 @@ var app = new Vue({
       let self = this
       axios({
         method: 'post',
-        url: 'http://localhost:3000/signin',
+        url: `${API_HOST}/signin`,
         data: {
           username: self.loginState.username,
           password: self.loginState.password
@@ -188,7 +189,7 @@ var app = new Vue({
       let self = this
       axios({
         method: 'post',
-        url: 'http://localhost:3000/signup',
+        url: `${API_HOST}/signup`,
         data: {
           name: self.registerState.name,
           email: self.registerState.email,
